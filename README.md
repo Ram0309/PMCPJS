@@ -125,42 +125,14 @@ $env:DB_TEST="dbTests.ts"; npm run test:db
 
 ---
 
-## 8. Reporting
-
-### Allure Report
-After running tests:
-```powershell
-npm run allure:generate
-npm run allure:open
-```
-
-### Cucumber JSON
-- Output at `reports/cucumber-report.json`
-
----
-
-## 9. Logging & Error Handling
-- Logs: `logs/combined.log`, `logs/error.log`
-- Screenshots: `screenshots/` (on failure)
-- Allure attaches screenshots and logs to failed steps
-
----
-
-## 10. CI/CD (Bitbucket Pipelines)
+## 8. CI/CD (Bitbucket Pipelines)
 - See `bitbucket-pipelines.yml` for full pipeline
 - Supports parallel, tag-based, and custom test execution
 - Set pipeline variables: `FEATURE_PATH`, `CUCUMBER_TAGS`, `API_TEST`, `DB_TEST`
 
 ---
 
-## 11. Extending the Framework
-- Add new page objects in `pages/`
-- Add new step definitions in `step-definitions/`
-- Add new API/DB tests in `tests/`
-- Add new utilities in `utils/`
-- For BrowserStack/cloud grid, see placeholder in `world.ts`
 
----
 
 ## 12. Example: Adding a New UI Test
 1. Create a `.feature` file in `features/`
@@ -169,16 +141,3 @@ npm run allure:open
 4. Run with `npm run test:ui`
 
 ---
-
-## 13. Support & Contribution
-- Raise issues or PRs in your Bitbucket repo
-- For advanced integrations (cloud grid, advanced reporting, etc.), see comments in code for extension points
-
----
-
-## 14. Credits
-- Built with Playwright, Cucumber, Allure, Winston, Axios, MySQL2, XLSX, Ajv
-
----
-
-**Happy Testing!**
