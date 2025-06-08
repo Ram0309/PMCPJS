@@ -132,9 +132,7 @@ $env:DB_TEST="dbTests.ts"; npm run test:db
 
 ---
 
-
-
-## 12. Example: Adding a New UI Test
+## 9. Example: Adding a New UI Test
 1. Create a `.feature` file in `features/`
 2. Add step definitions in `step-definitions/`
 3. Add or update page objects in `pages/`
