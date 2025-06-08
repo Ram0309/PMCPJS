@@ -1,0 +1,65 @@
+image: node:20
+
+pipelines:
+  default:
+    - step:
+        name: Install dependencies
+        caches:
+          - node
+        script:
+          - npm ci
+    - step:
+        name: Run UI Tests (Custom Feature/Tag)
+        script:
+          - npx playwright install --with-deps
+          # Run specific feature file or tag if set, else run all
+          - |
+            if [ -n "$FEATURE_PATH" ]; then
+              echo "Running feature: $FEATURE_PATH"
+              npx cucumber-js $FEATURE_PATH
+            elif [ -n "$CUCUMBER_TAGS" ]; then
+              echo "Running scenarios with tag: $CUCUMBER_TAGS"
+              npx cucumber-js --tags "$CUCUMBER_TAGS"
+            else
+              npm run test:ui
+            fi
+        artifacts:
+          - allure-results/**
+          - reports/**
+          - screenshots/**
+    - step:
+        name: Run API Tests (Custom)
+        script:
+          # Run specific API test if API_TEST is set, else run all
+          - |
+            if [ -n "$API_TEST" ]; then
+              echo "Running API test: $API_TEST"
+              npx ts-node tests/$API_TEST
+            else
+              npm run test:api
+            fi
+    - step:
+        name: Run DB Tests (Custom)
+        script:
+          # Run specific DB test if DB_TEST is set, else run all
+          - |
+            if [ -n "$DB_TEST" ]; then
+              echo "Running DB test: $DB_TEST"
+              npx ts-node tests/$DB_TEST
+            else
+              npm run test:db
+            fi
+    - step:
+        name: Generate Allure Report
+        script:
+          - npx allure generate allure-results --clean -o allure-report
+        artifacts:
+          - allure-report/**
+    - step:
+        name: Deploy Allure Report
+        deployment: test
+        script:
+          - echo "Allure report generated. You can publish or upload as needed."
+
+options:
+  size: 2x
